@@ -5,7 +5,8 @@
   "mixins": [
     "DimensionTypeMixin",
     "MultiNoiseBiomeSourceMixin",
-    "SurfaceChunkGeneratorMixin"
+    "SurfaceChunkGeneratorMixin",
+    "TntEntityMixin"
   ],
   "client": [],
   "server": [],
