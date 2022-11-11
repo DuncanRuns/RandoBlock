@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "randoblock",
+  "version": "${version}",
+  "name": "RandoBlock",
+  "description": "Random Blocks what else",
+  "authors": [
+    "DuncanRuns"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/randoblock/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "me.duncanruns.randoblock.RandoBlock"
+    ],
+    "client": [],
+    "server": []
+  },
+  "mixins": [
+    "randoblock.mixins.json"
+  ]
+}

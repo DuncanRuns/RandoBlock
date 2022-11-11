@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "me.duncanruns.randoblock.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "DimensionTypeMixin",
+    "MultiNoiseBiomeSourceMixin",
+    "SurfaceChunkGeneratorMixin"
+  ],
+  "client": [],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
