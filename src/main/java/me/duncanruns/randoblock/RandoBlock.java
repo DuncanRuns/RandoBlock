@@ -3,23 +3,23 @@ package me.duncanruns.randoblock;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.dimension.DimensionType;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RandoBlock implements ModInitializer {
 
     public static final String MOD_ID = "randoblock";
     public static final String MOD_NAME = "RandoBlock";
-    public static final BlockState[] commonBlockList = {
+    private static final BlockState[] commonBlockList = {
             Blocks.COBBLESTONE.getDefaultState(),
             Blocks.DIRT.getDefaultState(),
             Blocks.GRAVEL.getDefaultState(),
     };
-    public static final BlockState[] blockList = {
+    private static final BlockState[] blockList = {
             Blocks.SLIME_BLOCK.getDefaultState(),
             Blocks.WATER.getDefaultState(),
             Blocks.LAVA.getDefaultState(),
@@ -73,7 +73,6 @@ public class RandoBlock implements ModInitializer {
             Blocks.GLASS.getDefaultState(),
             Blocks.LAPIS_ORE.getDefaultState(),
             Blocks.LAPIS_BLOCK.getDefaultState(),
-            Blocks.DISPENSER.getDefaultState(),
             Blocks.SANDSTONE.getDefaultState(),
             Blocks.CHISELED_SANDSTONE.getDefaultState(),
             Blocks.CUT_SANDSTONE.getDefaultState(),
@@ -262,17 +261,44 @@ public class RandoBlock implements ModInitializer {
             Blocks.CRACKED_NETHER_BRICKS.getDefaultState(),
             Blocks.QUARTZ_BRICKS.getDefaultState()
     };
+    private static final BlockState[] rareBlockList = {
+            Blocks.TNT.getDefaultState()
+    };
+    private static final ArrayList<BlockState> blockDistribution = getBlockDistribution();
     private static final Random random = new Random();
-
     public static Logger LOGGER = LogManager.getLogger();
 
-    public static BlockState randomBlock(DimensionType dimensionType) {
-        BlockState blockState = (random.nextInt(15)) == 0 ? randomCommonBlock() : randomOtherBlock();
-        if (!dimensionType.equals(DimensionType.getOverworldDimensionType()) && blockState.equals(Blocks.GRAVEL.getDefaultState())) {
-            return randomOtherBlock();
-        } else {
-            return blockState;
+    /**
+     * This should never be run outside the blockDistribution field.
+     *
+     * @return returns a list of blocks, many of which are duplicates to make a heavily weighted distribution.
+     */
+    private static ArrayList<BlockState> getBlockDistribution() {
+        ArrayList<BlockState> list = new ArrayList<>();
+
+        for (BlockState blockState : commonBlockList) {
+            for (int i = 0; i < 15; i++) {
+                list.add(blockState);
+            }
         }
+
+        for (BlockState blockState : blockList) {
+            for (int i = 0; i < 5; i++) {
+                list.add(blockState);
+            }
+        }
+
+        for (BlockState blockState : rareBlockList) {
+            for (int i = 0; i < 1; i++) {
+                list.add(blockState);
+            }
+        }
+
+        return list;
+    }
+
+    public static BlockState randomBlock() {
+        return blockDistribution.get(random.nextInt(blockDistribution.size()));
     }
 
     private static BlockState randomCommonBlock() {
