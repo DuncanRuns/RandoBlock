@@ -23,7 +23,7 @@ public class RandoBlock implements ModInitializer {
 
     private static final Pair<Float, BlockState>[] BLOCK_DISTRIBUTIONS = new Pair[]{
             new Pair<>(COMMON_BLOCKS, Blocks.COBBLESTONE.getDefaultState()),
-            new Pair<>(COMMON_BLOCKS, Blocks.DIRT.getDefaultState()),
+            new Pair<>(COMMON_BLOCKS, Blocks.STONE.getDefaultState()),
             new Pair<>(COMMON_BLOCKS, Blocks.GRAVEL.getDefaultState()),
 
             new Pair<>(RARE_BLOCK, Blocks.SLIME_BLOCK.getDefaultState()),
