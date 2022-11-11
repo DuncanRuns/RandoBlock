@@ -8,18 +8,20 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class RandoBlock implements ModInitializer {
 
     public static final String MOD_ID = "randoblock";
     public static final String MOD_NAME = "RandoBlock";
-    private static final BlockState[] commonBlockList = {
+    private static final List<BlockState> DISTRIBUTED_BLOCKSTATES = new ArrayList<>();
+    private static final BlockState[] COMMON_BLOCK_LIST = {
             Blocks.COBBLESTONE.getDefaultState(),
             Blocks.DIRT.getDefaultState(),
             Blocks.GRAVEL.getDefaultState(),
     };
-    private static final BlockState[] blockList = {
+    private static final BlockState[] REGULAR_BLOCK_LIST = {
             Blocks.SLIME_BLOCK.getDefaultState(),
             Blocks.WATER.getDefaultState(),
             Blocks.LAVA.getDefaultState(),
@@ -261,61 +263,39 @@ public class RandoBlock implements ModInitializer {
             Blocks.CRACKED_NETHER_BRICKS.getDefaultState(),
             Blocks.QUARTZ_BRICKS.getDefaultState()
     };
-    private static final BlockState[] rareBlockList = {
+    private static final BlockState[] RARE_BLOCK_LIST = {
             Blocks.TNT.getDefaultState()
     };
-    private static final ArrayList<BlockState> blockDistribution = getBlockDistribution();
-    private static final Random random = new Random();
+
+    private static final Random RANDOM = new Random();
     public static Logger LOGGER = LogManager.getLogger();
 
-    /**
-     * This should never be run outside the blockDistribution field.
-     *
-     * @return returns a list of blocks, many of which are duplicates to make a heavily weighted distribution.
-     */
-    private static ArrayList<BlockState> getBlockDistribution() {
-        ArrayList<BlockState> list = new ArrayList<>();
-
-        for (BlockState blockState : commonBlockList) {
-            for (int i = 0; i < 15; i++) {
-                list.add(blockState);
-            }
-        }
-
-        for (BlockState blockState : blockList) {
-            for (int i = 0; i < 5; i++) {
-                list.add(blockState);
-            }
-        }
-
-        for (BlockState blockState : rareBlockList) {
-            for (int i = 0; i < 1; i++) {
-                list.add(blockState);
-            }
-        }
-
-        return list;
-    }
-
     public static BlockState randomBlock() {
-        return blockDistribution.get(random.nextInt(blockDistribution.size()));
-    }
-
-    private static BlockState randomCommonBlock() {
-        return commonBlockList[random.nextInt(commonBlockList.length)];
-    }
-
-    private static BlockState randomOtherBlock() {
-        return blockList[random.nextInt(blockList.length)];
+        return DISTRIBUTED_BLOCKSTATES.get(RANDOM.nextInt(DISTRIBUTED_BLOCKSTATES.size()));
     }
 
     @Override
     public void onInitialize() {
         log(Level.INFO, "Initializing");
+        for (var b : COMMON_BLOCK_LIST) {
+            addBlock(b, 15);
+        }
+        for (var b : RARE_BLOCK_LIST) {
+            addBlock(b, 1);
+        }
+        for (var b : REGULAR_BLOCK_LIST) {
+            addBlock(b, 5);
+        }
     }
 
     public static void log(Level level, String message) {
         LOGGER.log(level, "[" + MOD_NAME + "] " + message);
+    }
+
+    private static void addBlock(BlockState state, int weight) {
+        for (int i = 0; i < weight; i++) {
+            DISTRIBUTED_BLOCKSTATES.add(state);
+        }
     }
 
 }
