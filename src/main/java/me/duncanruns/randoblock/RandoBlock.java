@@ -35,7 +35,6 @@ public class RandoBlock implements ModInitializer {
             new Pair<>(RARE_BLOCK, Blocks.POLISHED_DIORITE.getDefaultState()),
             new Pair<>(RARE_BLOCK, Blocks.ANDESITE.getDefaultState()),
             new Pair<>(RARE_BLOCK, Blocks.POLISHED_ANDESITE.getDefaultState()),
-            new Pair<>(RARE_BLOCK, Blocks.STONE.getDefaultState()),
             new Pair<>(RARE_BLOCK, Blocks.COARSE_DIRT.getDefaultState()),
             new Pair<>(RARE_BLOCK, Blocks.PODZOL.getDefaultState()),
             new Pair<>(RARE_BLOCK, Blocks.COBBLESTONE.getDefaultState()),
@@ -272,9 +271,9 @@ public class RandoBlock implements ModInitializer {
 
     private static final float TOTAL_WEIGHT = Arrays.stream(BLOCK_DISTRIBUTIONS).map((p) -> p.getLeft()).reduce(0f, (a, b) -> a + b);
 
-    private static final TreeMap<Float, BlockState> SAMPLER = Sampler();
+    private static final TreeMap<Float, BlockState> SAMPLER = getSampler();
 
-    private static TreeMap<Float, BlockState> Sampler() {
+    private static TreeMap<Float, BlockState> getSampler() {
         var sampler = new TreeMap<Float, BlockState>();
         var acc = 0f;
 
@@ -287,11 +286,11 @@ public class RandoBlock implements ModInitializer {
         return sampler;
     }
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
     public static Logger LOGGER = LogManager.getLogger();
 
     public static BlockState randomBlock() {
-        var sample = random.nextFloat(TOTAL_WEIGHT);
+        var sample = RANDOM.nextFloat(TOTAL_WEIGHT);
         return SAMPLER.floorEntry(sample).getValue();
     }
 
