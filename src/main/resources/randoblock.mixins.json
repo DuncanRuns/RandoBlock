@@ -3,7 +3,6 @@
   "package": "me.duncanruns.randoblock.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "DimensionTypeMixin",
     "MultiNoiseBiomeSourceMixin",
     "SurfaceChunkGeneratorMixin",
     "TntEntityMixin"
